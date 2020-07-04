@@ -31,3 +31,20 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/mypage/basis_update', 'MypageController@basisUpdate')->name('.basis.update');
     });
 });
+
+// 管理者
+Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
+    // ログイン認証関連
+    Auth::routes([
+        'register' => false,
+        'reset' => false,
+        'verify' => false
+    ]);
+
+    // 認証後のコンテンツ
+    Route::middleware('auth:admin')->group(function () {
+        // ダッシュボード
+        Route::get('/home', 'HomeController@index')->name('.home');
+    });
+
+});
