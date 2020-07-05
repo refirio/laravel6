@@ -13,7 +13,7 @@ class StoreUserPost extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,23 @@ class StoreUserPost extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ];
+    }
+
+    /**
+     * バリデーションエラーのカスタム属性の取得
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'name' => '名前',
+            'email' => 'メールアドレス',
+            'password' => 'パスワード',
         ];
     }
 }

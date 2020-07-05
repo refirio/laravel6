@@ -2,20 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class UpdateUserPost extends FormRequest
+class UpdateUserPost extends StoreUserPost
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,8 +11,11 @@ class UpdateUserPost extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        $rules = parent::rules();
+
+        $rules['email'] = ['required', 'string', 'email', 'max:255'];
+        $rules['password'] = ['nullable', 'string', 'min:8', 'confirmed'];
+
+        return $rules;
     }
 }

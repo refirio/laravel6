@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateUserPost;
 use App\Models\User;
 
 class MypageController extends Controller
@@ -53,18 +54,8 @@ class MypageController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function basisUpdate (Request $request)
+    public function basisUpdate (UpdateUserPost $request)
     {
-        // 入力内容をチェック
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-        ]);
-        if ($validator->fails()) {
-            return redirect('mypage/basis')->withErrors($validator)->withInput();
-        }
-
         // 編集
         $userId = Auth::guard()->user()->id;
 
