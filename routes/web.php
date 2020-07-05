@@ -33,18 +33,26 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 // 管理者
-Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
-    // ログイン認証関連
-    Auth::routes([
-        'register' => false,
-        'reset' => false,
-        'verify' => false
-    ]);
+Route::namespace('Admin')->prefix('admin')->group(function () {
+    Route::name('admin.')->group(function () {
+        // ログイン認証関連
+        Auth::routes([
+            'register' => false,
+            'reset' => false,
+            'verify' => false
+        ]);
+    });
 
     // 認証後のコンテンツ
     Route::middleware('auth:admin')->group(function () {
-        // ダッシュボード
-        Route::get('/home', 'HomeController@index')->name('.home');
+        Route::group(['as' => 'admin'], function () {
+            // ダッシュボード
+            Route::get('/home', 'HomeController@index')->name('.home');
+            // ユーザ管理
+            Route::get('/user', 'UserController@index')->name('.user.index');
+            Route::get('/user/create', 'UserController@create')->name('.user.create');
+            Route::post('/user/create', 'UserController@store')->name('.user.store');
+            Route::delete('/user/{id}', 'UserController@destroy')->name('.user.delete');
+        });
     });
-
 });

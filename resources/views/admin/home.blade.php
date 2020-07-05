@@ -9,6 +9,8 @@
 
                 <div class="card-body">
                     <ul>
+                        <li><a href="{{ route('admin.home') }}">ホーム</a></li>
+                        <li><a href="{{ route('admin.user.index') }}">ユーザ管理</a></li>
                         <li><a href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a></li>
                     </ul>
                 </div>
