@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserPost;
+use App\Http\Requests\UpdateUserPost;
 
 use App\Models\User;
 
@@ -44,7 +45,7 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        return view('admin.user.create');
+        return view('admin.user.form');
     }
 
     /**
@@ -59,6 +60,40 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect('/admin/user');
+    }
+
+    /**
+     * Display a form of edit user.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function edit(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        return view('admin.user.form', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * Update a user.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function update(UpdateUserPost $request, $id)
+    {
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if (!empty($request->password)) {
+            $user->password = Hash::make($request->password);
+        }
         $user->save();
 
         return redirect('/admin/user');

@@ -59,7 +59,7 @@ class MypageController extends Controller
         // 編集
         $userId = Auth::guard()->user()->id;
 
-        $user = User::find($userId);;
+        $user = User::find($userId);
         $user->name = $request->name;
         $user->email = $request->email;
         if (!empty($request->password)) {
@@ -67,6 +67,6 @@ class MypageController extends Controller
         }
         $user->save();
 
-        return redirect('mypage/basis')->with('message', '基本情報を編集しました。');;
+        return redirect('mypage/basis')->with('message', '基本情報を編集しました。');
     }
 }

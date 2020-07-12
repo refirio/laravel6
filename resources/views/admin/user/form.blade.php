@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">ユーザ登録</div>
+                <div class="card-header">ユーザ @if (!Request::is('*/create')) {{ '編集' }} @else {{ '登録' }} @endif</div>
 
                 <div class="card-body">
                     @if (count($errors) > 0)
@@ -22,14 +22,17 @@
                     </div>
                     @endif
 
-                    <form action="{{ url('admin/user/create')}}" method="POST" class="form-horizontal">
+                    <form action="{{ Request::is('*/create') ? url('admin/user/create') : url('admin/user/edit/' . $user->id) }}" method="POST" class="form-horizontal">
+                        @if (!Request::is('*/create'))
+                            {{ method_field('put') }}
+                        @endif
                         {{ csrf_field() }}
 
                         <div class="form-group">
                             <label for="name" class="col-sm-3 control-label">Name</label>
 
                             <div class="col-sm-6">
-                                <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
+                                <input type="text" name="name" id="name" class="form-control" value="{{ old('name', isset($user) ? $user->name : '') }}">
                             </div>
                         </div>
 
@@ -37,7 +40,7 @@
                             <label for="email" class="col-sm-3 control-label">Email</label>
 
                             <div class="col-sm-6">
-                                <input type="text" name="email" id="email" class="form-control" value="{{ old('email') }}">
+                                <input type="text" name="email" id="email" class="form-control" value="{{ old('email', isset($user) ? $user->email : '') }}">
                             </div>
                         </div>
 
@@ -60,7 +63,7 @@
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
                                 <button type="submit" class="btn btn-default">
-                                    <i class="fa fa-btn fa-plus"></i>Add User
+                                    <i class="fa fa-btn fa-plus"></i>@if (!Request::is('*/create')) {{ '編集' }} @else {{ '登録' }} @endif
                                 </button>
                             </div>
                         </div>

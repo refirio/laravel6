@@ -52,7 +52,9 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
             Route::get('/user', 'UserController@index')->name('.user.index');
             Route::get('/user/create', 'UserController@create')->name('.user.create');
             Route::post('/user/create', 'UserController@store')->name('.user.store');
-            Route::delete('/user/{id}', 'UserController@destroy')->name('.user.delete');
+            Route::get('/user/edit/{id}', 'UserController@edit')->name('.user.edit');
+            Route::put('/user/edit/{id}', 'UserController@update')->name('.user.update');
+            Route::delete('/user/delete/{id}', 'UserController@destroy')->name('.user.delete');
         });
     });
 });

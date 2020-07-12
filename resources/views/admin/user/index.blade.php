@@ -14,6 +14,7 @@
                         <thead>
                             <th>名前</th>
                             <th>メール</th>
+                            <th>編集</th>
                             <th>削除</th>
                         </thead>
                         <tbody>
@@ -21,9 +22,9 @@
                             <tr>
                                 <td class="table-text"><div>{{ $user->name }}</div></td>
                                 <td class="table-text"><div>{{ $user->email }}</div></td>
-
+                                <td class="table-text"><a href="{{ url('admin/user/edit/' . $user->id) }}" class="btn btn-primary">Edit</a></td>
                                 <td>
-                                    <form action="{{ url('admin/user/' . $user->id) }}" method="POST">
+                                    <form action="{{ url('admin/user/delete/' . $user->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button type="submit" class="btn btn-danger">
