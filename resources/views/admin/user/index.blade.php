@@ -13,6 +13,12 @@
                             {{ session('message') }}
                         </div>
                     </div>
+                    @elseif (session('error'))
+                    <div class="box">
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    </div>
                     @endif
                     <p><a href="{{ route('admin.user.create') }}" class="btn btn-primary">ユーザ登録</a></p>
                     <table class="table table-striped">

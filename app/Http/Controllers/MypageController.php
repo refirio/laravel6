@@ -9,16 +9,19 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Services\UserService;
 
 class MypageController extends Controller
 {
     /**
      * インスタンス作成
      *
+     * @param UserService $userService
      * @return void
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
+        $this->userService = $userService;
     }
 
     /**
@@ -57,16 +60,12 @@ class MypageController extends Controller
     public function basisUpdate(UpdateUserRequest $request)
     {
         // 編集
-        $userId = Auth::guard()->user()->id;
+        $id = Auth::guard()->user()->id;
 
-        $user = User::find($userId);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if (!empty($request->password)) {
-            $user->password = Hash::make($request->password);
+        if ($this->userService->updateUser($request, $id)) {
+            return redirect()->route('mypage.basis')->with('message', '基本情報を編集しました。');
+        } else {
+            return redirect()->route('mypage.basis')->with('message', '基本情報を編集できませんでした。');
         }
-        $user->save();
-
-        return redirect('mypage/basis')->with('message', '基本情報を編集しました。');
     }
 }

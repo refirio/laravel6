@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreUserRequest;
+use App\Services\UserService;
 
 class RegisterController extends Controller
 {
@@ -34,11 +35,14 @@ class RegisterController extends Controller
     /**
      * Create a new controller instance.
      *
+     * @param UserService $userService
      * @return void
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
         $this->middleware('guest');
+
+        $this->userService = $userService;
     }
 
     /**
@@ -49,26 +53,12 @@ class RegisterController extends Controller
      */
     public function register(StoreUserRequest $request)
     {
-        event(new Registered($user = $this->create($request->all())));
+        $user = $this->userService->storeUser($request);
+        //event(new Registered($user));
 
         $this->guard()->login($user);
 
         return $this->registered($request, $user)
                         ?: redirect($this->redirectPath());
-    }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -11,17 +10,21 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
 use App\Models\User;
+use App\Services\UserService;
 
 class UserController extends Controller
 {
     /**
      * Create a new controller instance.
      *
+     * @param UserService $userService
      * @return void
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
         $this->middleware('auth');
+
+        $this->userService = $userService;
     }
 
     /**
@@ -33,7 +36,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         return view('admin.user.index', [
-            'users' => User::orderBy('created_at', 'asc')->get()
+            'users' => $this->userService->searchUsers([], [['id', 'desc']])
         ]);
     }
 
@@ -56,13 +59,11 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        return redirect()->route('admin.user.index')->with('message', '登録しました。');
+        if ($this->userService->storeUser($request)) {
+            return redirect()->route('admin.user.index')->with('message', 'ユーザを登録しました。');
+        } else {
+            return redirect()->route('admin.user.index')->with('error', 'ユーザを登録できませんでした。');
+        }
     }
 
     /**
@@ -73,10 +74,8 @@ class UserController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $user = User::find($id);
-
         return view('admin.user.form', [
-            'user' => $user,
+            'user' => $this->userService->getUser($id),
         ]);
     }
 
@@ -88,15 +87,11 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        $user = User::find($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if (!empty($request->password)) {
-            $user->password = Hash::make($request->password);
+        if ($this->userService->updateUser($request, $id)) {
+            return redirect()->route('admin.user.index')->with('message', 'ユーザを編集しました。');
+        } else {
+            return redirect()->route('admin.user.index')->with('error', 'ユーザを編集できませんでした。');
         }
-        $user->save();
-
-        return redirect()->route('admin.user.index')->with('message', '編集しました。');
     }
 
     /**
@@ -108,8 +103,10 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        User::findOrFail($id)->delete();
-
-        return redirect()->route('admin.user.index')->with('message', '削除しました。');
+        if ($this->userService->deleteUser($id)) {
+            return redirect()->route('admin.user.index')->with('message', 'ユーザを削除しました。');
+        } else {
+            return redirect()->route('admin.user.index')->with('error', 'ユーザを削除できませんでした。');
+        }
     }
 }
