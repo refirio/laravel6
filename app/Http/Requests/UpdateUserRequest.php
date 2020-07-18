@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class UpdateUserPost extends StoreUserPost
+class UpdateUserRequest extends StoreUserRequest
 {
     /**
      * Get the validation rules that apply to the request.

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateUserPost;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 
 class MypageController extends Controller
@@ -54,7 +54,7 @@ class MypageController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function basisUpdate (UpdateUserPost $request)
+    public function basisUpdate (UpdateUserRequest $request)
     {
         // 編集
         $userId = Auth::guard()->user()->id;

@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\StoreUserPost;
+use App\Http\Requests\StoreUserRequest;
 
 class RegisterController extends Controller
 {
@@ -47,7 +47,7 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function register(StoreUserPost $request)
+    public function register(StoreUserRequest $request)
     {
         event(new Registered($user = $this->create($request->all())));
 

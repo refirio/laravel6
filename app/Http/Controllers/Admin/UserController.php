@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUserPost;
-use App\Http\Requests\UpdateUserPost;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 use App\Models\User;
 
@@ -54,7 +54,7 @@ class UserController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(StoreUserPost $request)
+    public function store(StoreUserRequest $request)
     {
         $user = new User;
         $user->name = $request->name;
@@ -86,7 +86,7 @@ class UserController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function update(UpdateUserPost $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $user = User::find($id);
         $user->name = $request->name;
