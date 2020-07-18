@@ -62,7 +62,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect('/admin/user');
+        return redirect()->route('admin.user.index')->with('message', '登録しました。');
     }
 
     /**
@@ -96,7 +96,7 @@ class UserController extends Controller
         }
         $user->save();
 
-        return redirect('/admin/user');
+        return redirect()->route('admin.user.index')->with('message', '編集しました。');
     }
 
     /**
@@ -110,6 +110,6 @@ class UserController extends Controller
     {
         User::findOrFail($id)->delete();
 
-        return redirect('/admin/user');
+        return redirect()->route('admin.user.index')->with('message', '削除しました。');
     }
 }

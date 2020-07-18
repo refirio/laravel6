@@ -7,9 +7,14 @@
             <div class="card">
                 <div class="card-header">ユーザ一覧</div>
                 <div class="card-body">
-                    <ul>
-                        <li><a href="{{ route('admin.user.create') }}">ユーザ登録</a></li>
-                    </ul>
+                    @if (session('message'))
+                    <div class="box">
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    </div>
+                    @endif
+                    <p><a href="{{ route('admin.user.create') }}" class="btn btn-primary">ユーザ登録</a></p>
                     <table class="table table-striped">
                         <thead>
                             <th>名前</th>
@@ -22,9 +27,9 @@
                             <tr>
                                 <td class="table-text"><div>{{ $user->name }}</div></td>
                                 <td class="table-text"><div>{{ $user->email }}</div></td>
-                                <td class="table-text"><a href="{{ url('admin/user/edit/' . $user->id) }}" class="btn btn-primary">Edit</a></td>
+                                <td class="table-text"><a href="{{ route('admin.user.edit', ['id' => $user->id]) }}" class="btn btn-primary">Edit</a></td>
                                 <td>
-                                    <form action="{{ url('admin/user/delete/' . $user->id) }}" method="POST">
+                                    <form action="{{ route('admin.user.delete', ['id' => $user->id]) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button type="submit" class="btn btn-danger">

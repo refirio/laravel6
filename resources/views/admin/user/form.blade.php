@@ -10,19 +10,13 @@
                 <div class="card-body">
                     @if (count($errors) > 0)
                     <div class="alert alert-danger">
-                        <strong>Whoops! Something went wrong!</strong>
-
-                        <br><br>
-
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                        @foreach ($errors->all() as $error)
+                        {{ $error }}<br>
+                        @endforeach
                     </div>
                     @endif
 
-                    <form action="{{ Request::is('*/create') ? url('admin/user/create') : url('admin/user/edit/' . $user->id) }}" method="POST" class="form-horizontal">
+                    <form action="{{ Request::is('*/create') ? route('admin.user.create') : route('admin.user.edit', ['id' => $user->id]) }}" method="POST" class="form-horizontal">
                         @if (!Request::is('*/create'))
                             {{ method_field('put') }}
                         @endif
@@ -62,7 +56,7 @@
 
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
-                                <button type="submit" class="btn btn-default">
+                                <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-plus"></i>@if (!Request::is('*/create')) {{ '編集' }} @else {{ '登録' }} @endif
                                 </button>
                             </div>
