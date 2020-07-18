@@ -54,7 +54,7 @@ class MypageController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function basisUpdate (UpdateUserRequest $request)
+    public function basisUpdate(UpdateUserRequest $request)
     {
         // 編集
         $userId = Auth::guard()->user()->id;
