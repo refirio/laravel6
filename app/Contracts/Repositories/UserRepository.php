@@ -7,7 +7,7 @@ interface UserRepository
     /**
      * 1件取得
      *
-     * @param  int $id
+     * @param  int  $id
      * @return mixed
      */
     public function find($id);
@@ -22,9 +22,9 @@ interface UserRepository
     /**
      * 検索して取得
      *
-     * @param  array $conditions
-     * @param  array $orders
-     * @param  int   $limit
+     * @param  array  $conditions
+     * @param  array  $orders
+     * @param  int|null   $limit
      * @return mixed
      */
     public function search(array $conditions, array $orders, $limit);
@@ -39,8 +39,8 @@ interface UserRepository
     /**
      * 保存
      *
-     * @param  array $data
-     * @param  int $id
+     * @param  array  $data
+     * @param  int|null  $id
      * @return mixed
      */
     public function save(array $data, $id);
@@ -48,7 +48,7 @@ interface UserRepository
     /**
      * 削除
      *
-     * @param  int $id
+     * @param  int  $id
      * @return mixed
      */
     public function delete($id);

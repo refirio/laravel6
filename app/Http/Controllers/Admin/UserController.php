@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Requests;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-
 use App\Models\User;
 use App\Services\UserService;
 
@@ -17,7 +15,7 @@ class UserController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param UserService $userService
+     * @param  UserService  $userService
      * @return void
      */
     public function __construct(UserService $userService)

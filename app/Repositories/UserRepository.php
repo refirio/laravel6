@@ -13,7 +13,7 @@ class UserRepository implements UserRepositoryContract
     /**
      * コンストラクタ
      *
-     * @param User $user
+     * @param User  $user
      * @return void
      */
     public function __construct(User $user)
@@ -24,7 +24,7 @@ class UserRepository implements UserRepositoryContract
     /**
      * 1件取得
      *
-     * @param  int $id
+     * @param  int  $id
      * @return mixed
      */
     public function find($id)
@@ -45,9 +45,9 @@ class UserRepository implements UserRepositoryContract
     /**
      * 検索して取得
      *
-     * @param  array $conditions
-     * @param  array $orders
-     * @param  int $limit
+     * @param  array  $conditions
+     * @param  array  $orders
+     * @param  int|null  $limit
      * @return mixed
      */
     public function search(array $conditions = array(), array $orders = array(), $limit = null)
@@ -88,8 +88,8 @@ class UserRepository implements UserRepositoryContract
     /**
      * 保存
      *
-     * @param  array $data
-     * @param  int $id
+     * @param  array  $data
+     * @param  int|null  $id
      * @return User
      */
     public function save(array $data, $id = null)
@@ -100,7 +100,7 @@ class UserRepository implements UserRepositoryContract
     /**
      * 削除
      *
-     * @param  int $id
+     * @param  int  $id
      * @return mixed
      */
     public function delete($id)

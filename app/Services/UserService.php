@@ -18,7 +18,7 @@ class UserService
     /**
      * コンストラクタ
      *
-     * @param UserRepository $userRepository
+     * @param  UserRepository  $userRepository
      * @return void
      */
     public function __construct(
@@ -31,7 +31,7 @@ class UserService
     /**
      * 1件取得
      *
-     * @param  int $id
+     * @param  int  $id
      * @return mixed
      */
     public function getUser($id)
@@ -52,9 +52,9 @@ class UserService
     /**
      * 検索して取得
      *
-     * @param  array $conditions
-     * @param  array $orders
-     * @param  int   $limit
+     * @param  array  $conditions
+     * @param  array  $orders
+     * @param  int  $limit
      * @return mixed
      */
     public function searchUsers(array $conditions = array(), array $orders = array(), $limit = null)
@@ -75,7 +75,7 @@ class UserService
     /**
      * 登録
      *
-     * @param  StoreUserRequest $request
+     * @param  StoreUserRequest  $request
      * @return \App\Models\User
      */
     public function storeUser(StoreUserRequest $request)
@@ -106,8 +106,8 @@ class UserService
     /**
      * 編集
      *
-     * @param  UpdateUserPost $request
-     * @param  int $id
+     * @param  UpdateUserPost  $request
+     * @param  int  $id
      * @return \App\Models\User
      */
     public function updateUser(UpdateUserRequest $request, $id)
@@ -142,7 +142,7 @@ class UserService
     /**
      * 削除
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \App\Models\User
      */
     public function deleteUser($id)

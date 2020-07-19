@@ -16,7 +16,7 @@ class MypageController extends Controller
     /**
      * インスタンス作成
      *
-     * @param UserService $userService
+     * @param  UserService  $userService
      * @return void
      */
     public function __construct(UserService $userService)
@@ -27,7 +27,7 @@ class MypageController extends Controller
     /**
      * マイページ
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(Request $request)
@@ -38,7 +38,7 @@ class MypageController extends Controller
     /**
      * 基本情報編集画面
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function basis(Request $request)
@@ -54,7 +54,7 @@ class MypageController extends Controller
     /**
      * 基本情報編集
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function basisUpdate(UpdateUserRequest $request)

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
+use App\Models\User;
 use App\Services\UserService;
 
 class RegisterController extends Controller
@@ -35,7 +35,7 @@ class RegisterController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param UserService $userService
+     * @param  UserService  $userService
      * @return void
      */
     public function __construct(UserService $userService)
