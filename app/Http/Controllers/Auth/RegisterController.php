@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
@@ -46,14 +47,41 @@ class RegisterController extends Controller
     }
 
     /**
+     * Confirm a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    protected function confirm(StoreUserRequest $request)
+    {
+        $post = $request->all();
+        $request->session()->put('post.register', $post);
+
+        return view('auth.confirm', [
+            'user' => $post,
+        ]);
+    }
+
+    /**
      * Handle a registration request for the application.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function register(StoreUserRequest $request)
+    public function register(Request $request)
     {
-        $user = $this->userService->storeUser($request);
+        if (!$request->session()->has('post.register')) {
+            return redirect()->route('register');
+        }
+
+        $post = $request->session()->get('post.register');
+
+        $postRequest = new StoreUserRequest();
+        $postRequest->merge($post);
+
+        $request->session()->forget('post.register');
+
+        $user = $this->userService->storeUser($postRequest);
         //event(new Registered($user));
 
         $this->guard()->login($user);
