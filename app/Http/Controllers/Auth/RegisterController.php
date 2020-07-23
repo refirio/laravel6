@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
@@ -81,8 +82,7 @@ class RegisterController extends Controller
 
         $request->session()->forget('post.register');
 
-        $user = $this->userService->storeUser($postRequest);
-        //event(new Registered($user));
+        event(new Registered($user = $this->userService->storeUser($postRequest)));
 
         $this->guard()->login($user);
 
