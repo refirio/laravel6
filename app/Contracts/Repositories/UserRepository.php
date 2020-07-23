@@ -24,7 +24,7 @@ interface UserRepository
      *
      * @param  array  $conditions
      * @param  array  $orders
-     * @param  int|null   $limit
+     * @param  int|null  $limit
      * @return mixed
      */
     public function search(array $conditions, array $orders, $limit);

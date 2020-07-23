@@ -106,7 +106,7 @@ class UserService
     /**
      * 編集
      *
-     * @param  UpdateUserPost  $request
+     * @param  UpdateUserRequest  $request
      * @param  int  $id
      * @return \App\Models\User
      */
