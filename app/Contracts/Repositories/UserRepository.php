@@ -5,7 +5,7 @@ namespace App\Contracts\Repositories;
 interface UserRepository
 {
     /**
-     * 1件取得
+     * 取得
      *
      * @param  int  $id
      * @return mixed
@@ -13,14 +13,7 @@ interface UserRepository
     public function find($id);
 
     /**
-     * 全件取得
-     *
-     * @return mixed
-     */
-    public function findAll();
-
-    /**
-     * 検索して取得
+     * 検索
      *
      * @param  array  $conditions
      * @param  array  $orders
@@ -30,7 +23,7 @@ interface UserRepository
     public function search(array $conditions, array $orders, $limit);
 
     /**
-     * 件数取得
+     * 件数
      *
      * @return int
      */

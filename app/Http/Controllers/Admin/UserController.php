@@ -34,7 +34,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         return view('admin.user.index', [
-            'users' => $this->userService->searchUsers([], [['id', 'desc']])
+            'users' => $this->userService->getUsers([], [['id', 'desc']]),
         ]);
     }
 

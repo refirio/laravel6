@@ -40,16 +40,6 @@ class UserService
     }
 
     /**
-     * 全件取得
-     *
-     * @return mixed
-     */
-    public function getUsers()
-    {
-        return $this->userRepository->findAll();
-    }
-
-    /**
      * 検索して取得
      *
      * @param  array  $conditions
@@ -57,19 +47,20 @@ class UserService
      * @param  int  $limit
      * @return mixed
      */
-    public function searchUsers(array $conditions = array(), array $orders = array(), $limit = null)
+    public function getUsers(array $conditions = array(), array $orders = array(), $limit = null)
     {
         return $this->userRepository->search($conditions, $orders, $limit);
     }
 
     /**
-     * 件数取得
+     * 件数を取得
      *
+     * @param  array  $conditions
      * @return int
      */
-    public function count()
+    public function countUsers(array $conditions = array())
     {
-        return $this->userRepository->count();
+        return $this->userRepository->count($conditions);
     }
 
     /**

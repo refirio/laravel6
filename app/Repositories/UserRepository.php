@@ -22,7 +22,7 @@ class UserRepository implements UserRepositoryContract
     }
 
     /**
-     * 1件取得
+     * 取得
      *
      * @param  int  $id
      * @return mixed
@@ -33,17 +33,7 @@ class UserRepository implements UserRepositoryContract
     }
 
     /**
-     * 全件取得
-     *
-     * @return mixed
-     */
-    public function findAll()
-    {
-        return $this->user->query()->orderBy('id', 'asc')->get();
-    }
-
-    /**
-     * 検索して取得
+     * 検索
      *
      * @param  array  $conditions
      * @param  array  $orders
@@ -53,16 +43,7 @@ class UserRepository implements UserRepositoryContract
     public function search(array $conditions = array(), array $orders = array(), $limit = null)
     {
         $query = $this->user->query();
-
-        if (isset($conditions['id'])) {
-            $query->where('id', $conditions['id']);
-        }
-        if (isset($conditions['title'])) {
-            $query->where('title', $conditions['title']);
-        }
-        if (isset($conditions['title_like'])) {
-            $query->where('title', 'like', $conditions['title']);
-        }
+        $query = $this->setConditions($query, $conditions);
 
         foreach ($orders as $order) {
             $query->orderBy($order[0], $order[1]);
@@ -76,13 +57,17 @@ class UserRepository implements UserRepositoryContract
     }
 
     /**
-     * 件数取得
+     * 件数
      *
+     * @param  array  $conditions
      * @return int
      */
-    public function count()
+    public function count(array $conditions = array())
     {
-        return $this->user->count();
+        $query = $this->user->query();
+        $query = $this->setConditions($query, $conditions);
+
+        return $query->count();
     }
 
     /**
@@ -106,5 +91,27 @@ class UserRepository implements UserRepositoryContract
     public function delete($id)
     {
         return $this->user->findOrFail($id)->delete();
+    }
+
+    /**
+     * 検索条件を設定
+     *
+     * @param  int  $query
+     * @param  array  $conditions
+     * @return \Illuminate\Database\Query\Builder
+     */
+    private function setConditions($query, array $conditions = array())
+    {
+        if (isset($conditions['id'])) {
+            $query->where('id', $conditions['id']);
+        }
+        if (isset($conditions['name'])) {
+            $query->where('name', $conditions['name']);
+        }
+        if (isset($conditions['name_like'])) {
+            $query->where('name', 'like', $conditions['name_like']);
+        }
+
+        return $query;
     }
 }
