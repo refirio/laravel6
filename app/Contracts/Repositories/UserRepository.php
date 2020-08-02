@@ -36,7 +36,7 @@ interface UserRepository
      * @param  int|null  $id
      * @return mixed
      */
-    public function save(array $data, $id);
+    public function save(array $data, $id = null);
 
     /**
      * 削除
