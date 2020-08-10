@@ -8,102 +8,160 @@ use Tests\TestCase;
 
 class UserServiceTest extends TestCase
 {
+    private $users;
+
     /**
-     * A basic unit test example.
+     * Setup the test environment.
      *
      * @return void
      */
-    public function testExample()
+    protected function setUp(): void
     {
-        $this->assertTrue(true);
+        parent::setUp();
+
+        // ダミーデータを作成
+        $this->users = factory(\App\Models\User::class, 3)->create();
+        /*
+        foreach ($this->users as $user) {
+            echo '[' . $user->name . ']';
+            echo '[' . $user->email . ']';
+        }
+        */
     }
 
     /**
-     * A basic unit test example.
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     */
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        // ダミーデータを削除
+        $this->users = null;
+    }
+
+    /**
+     * 1件取得
+     *
+     * @return void
+     */
+    public function testGetUser()
+    {
+        // 1件取得
+        $user = $this->users;
+
+        // リポジトリのモックを作成
+        $userRepositoryMock = \Mockery::mock(\App\Repositories\UserRepository::class);
+        $userRepositoryMock->shouldReceive('find')->andReturn($user);
+
+        // リポジトリをモックに差し替えてサービスを作成
+        $userService = new \App\Services\UserService(
+            $userRepositoryMock
+        );
+        $this->assertEquals($user, $userService->getUser(1));
+    }
+
+    /**
+     * 検索して取得
+     *
+     * @return void
+     */
+    public function testGetUsers()
+    {
+        // リポジトリのモックを作成
+        $userRepositoryMock = \Mockery::mock(\App\Repositories\UserRepository::class);
+        $userRepositoryMock->shouldReceive('search')->andReturn($this->users);
+
+        // リポジトリをモックに差し替えてサービスを作成
+        $userService = new \App\Services\UserService(
+            $userRepositoryMock
+        );
+        $this->assertEquals($this->users, $userService->getUsers());
+    }
+
+    /**
+     * 件数を取得
      *
      * @return void
      */
     public function testCountUsers()
     {
+        // リポジトリのモックを作成
+        $userRepositoryMock = \Mockery::mock(\App\Repositories\UserRepository::class);
+        $userRepositoryMock->shouldReceive('count')->andReturn(count($this->users));
+
+        // リポジトリをモックに差し替えてサービスを作成
         $userService = new \App\Services\UserService(
-            // コントラクトを実装したスタブクラスへ差し替える
-            new StubUserRepository()
+            $userRepositoryMock
         );
         $this->assertEquals(3, $userService->countUsers());
     }
 
     /**
-     * A basic unit test example.
+     * 登録
      *
      * @return void
      */
     public function testStoreUser()
     {
-        $userService = new \App\Services\UserService(
-            // コントラクトを実装したスタブクラスへ差し替える
-            new StubUserRepository()
-        );
+        // リポジトリのモックを作成
+        $userRepositoryMock = \Mockery::mock(\App\Repositories\UserRepository::class);
+        $userRepositoryMock->shouldReceive('save')->andReturn(new \App\Models\User);
 
+        // リポジトリをモックに差し替えてサービスを作成
+        $userService = new \App\Services\UserService(
+            $userRepositoryMock
+        );
         $postRequest = new \App\Http\Requests\StoreUserRequest();
         $postRequest->merge([
             'name' => 'Taro Yamada',
             'email' => 'taro@example.com',
             'password' => 'abcd1234',
         ]);
-
-        $result = $userService->storeUser($postRequest);
-        $this->assertInstanceOf('\App\Models\User', $result);
-    }
-}
-
-class StubUserRepository implements \App\Contracts\Repositories\UserRepository
-{
-    /**
-     * 取得
-     *
-     * @param  int  $id
-     * @return mixed
-     */
-    public function find($id) {
+        $this->assertInstanceOf('\App\Models\User', $userService->storeUser($postRequest));
     }
 
     /**
-     * 検索
+     * 編集
      *
-     * @param  array  $conditions
-     * @param  array  $orders
-     * @param  int|null  $limit
-     * @return mixed
+     * @return void
      */
-    public function search(array $conditions, array $orders, $limit) {
-    }
+    public function testUpdateUser()
+    {
+        // リポジトリのモックを作成
+        $userRepositoryMock = \Mockery::mock(\App\Repositories\UserRepository::class);
+        $userRepositoryMock->shouldReceive('save')->andReturn(new \App\Models\User);
 
-    /**
-     * 件数
-     *
-     * @return int
-     */
-    public function count() {
-        return 3;
-    }
-
-    /**
-     * 保存
-     *
-     * @param  array  $data
-     * @param  int|null  $id
-     * @return mixed
-     */
-    public function save(array $data, $id = null) {
-        return new \App\Models\User;
+        // リポジトリをモックに差し替えてサービスを作成
+        $userService = new \App\Services\UserService(
+            $userRepositoryMock
+        );
+        $postRequest = new \App\Http\Requests\StoreUserRequest();
+        $postRequest->merge([
+            'name' => 'Taro Yamada',
+            'email' => 'taro@example.com',
+            'password' => 'abcd1234',
+        ]);
+        $this->assertInstanceOf('\App\Models\User', $userService->storeUser($postRequest, 1));
     }
 
     /**
      * 削除
      *
-     * @param  int  $id
-     * @return mixed
+     * @return void
      */
-    public function delete($id) {
+    public function testDeleteUser()
+    {
+        // リポジトリのモックを作成
+        $userRepositoryMock = \Mockery::mock(\App\Repositories\UserRepository::class);
+        $userRepositoryMock->shouldReceive('delete')->andReturn(new \App\Models\User);
+
+        // リポジトリをモックに差し替えてサービスを作成
+        $userService = new \App\Services\UserService(
+            $userRepositoryMock
+        );
+        $this->assertInstanceOf('\App\Models\User', $userService->deleteUser(1));
     }
 }
