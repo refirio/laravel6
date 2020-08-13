@@ -48,6 +48,25 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm(Request $request)
+    {
+        if ($request->referer === 'preview' && $request->session()->has('post.register')) {
+            $post = $request->session()->get('post.register');
+        } else {
+            $post = [];
+        }
+
+        return view('auth.register', [
+            'user' => $post,
+        ]);
+    }
+
+    /**
      * Confirm a registration request for the application.
      *
      * @param  \Illuminate\Http\Request  $request
