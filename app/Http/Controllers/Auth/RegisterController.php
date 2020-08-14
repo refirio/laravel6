@@ -55,7 +55,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm(Request $request)
     {
-        if ($request->referer === 'preview' && $request->session()->has('post.register')) {
+        if ($request->referer === 'confirm' && $request->session()->has('post.register')) {
             $post = $request->session()->get('post.register');
         } else {
             $post = [];
