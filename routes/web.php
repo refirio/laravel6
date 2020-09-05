@@ -56,6 +56,13 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
             Route::get('/user/edit/{id}', 'UserController@edit')->name('.user.edit');
             Route::put('/user/edit/{id}', 'UserController@update')->name('.user.update');
             Route::delete('/user/delete/{id}', 'UserController@destroy')->name('.user.delete');
+            // カテゴリ管理
+            Route::get('/category', 'CategoryController@index')->name('.category.index');
+            Route::get('/category/create', 'CategoryController@create')->name('.category.create');
+            Route::post('/category/create', 'CategoryController@store')->name('.category.store');
+            Route::get('/category/edit/{id}', 'CategoryController@edit')->name('.category.edit');
+            Route::put('/category/edit/{id}', 'CategoryController@update')->name('.category.update');
+            Route::delete('/category/delete/{id}', 'CategoryController@destroy')->name('.category.delete');
         });
     });
 });
