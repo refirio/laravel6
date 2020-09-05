@@ -14,9 +14,16 @@ class CreateEntriesTable extends Migration
     public function up()
     {
         Schema::create('entries', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->bigIncrements('id');
+            $table->dateTime('datetime')->comment('日時');
+            $table->string('title')->comment('タイトル');
+            $table->text('body')->comment('本文');
+            $table->bigInteger('user_id', false, true);
             $table->timestamps();
+            $table->softDeletes();
         });
+        DB::statement('ALTER TABLE entries COMMENT \'記事\'');
     }
 
     /**
