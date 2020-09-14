@@ -42,7 +42,7 @@ class EntryRepository implements EntryRepositoryContract
      */
     public function search(array $conditions = array(), array $orders = array(), $limit = null)
     {
-        $query = $this->entry->query();
+        $query = $this->entry->query()->with('user');
         $query = $this->setConditions($query, $conditions);
 
         foreach ($orders as $order) {
