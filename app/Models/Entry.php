@@ -26,4 +26,12 @@ class Entry extends Model
     protected $casts = [
         'datetime' => 'datetime',
     ];
+
+    /**
+     * 記事に関連するユーザを取得
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

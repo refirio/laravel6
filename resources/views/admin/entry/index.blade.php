@@ -25,6 +25,7 @@
                         <thead>
                             <th>日時</th>
                             <th>タイトル</th>
+                            <th>ユーザ</th>
                             <th>編集</th>
                             <th>削除</th>
                         </thead>
@@ -33,6 +34,7 @@
                             <tr>
                                 <td class="table-text"><div>{{ $entry->datetime->format('Y/m/d H:i:s') }}</div></td>
                                 <td class="table-text"><div>{{ $entry->title }}</div></td>
+                                <td class="table-text"><div>{{ $entry->user->name }}</div></td>
                                 <td class="table-text"><a href="{{ route('admin.entry.edit', ['id' => $entry->id]) }}" class="btn btn-primary">Edit</a></td>
                                 <td>
                                     <form action="{{ route('admin.entry.delete', ['id' => $entry->id]) }}" method="POST">
