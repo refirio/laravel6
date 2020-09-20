@@ -9,6 +9,7 @@ use App\Http\Requests\StoreEntryRequest;
 use App\Http\Requests\UpdateEntryRequest;
 use App\Models\Entry;
 use App\Services\EntryService;
+use App\Services\CategoryService;
 use App\Services\UserService;
 
 class EntryController extends Controller
@@ -17,17 +18,20 @@ class EntryController extends Controller
      * Create a new controller instance.
      *
      * @param  EntryService  $entryService
+     * @param  CategoryService  $categoryService
      * @param  UserService  $userService
      * @return void
      */
     public function __construct(
         EntryService $entryService,
+        CategoryService $categoryService,
         UserService $userService
     )
     {
         $this->middleware('auth');
 
         $this->entryService = $entryService;
+        $this->categoryService = $categoryService;
         $this->userService = $userService;
     }
 
@@ -53,6 +57,7 @@ class EntryController extends Controller
     public function create(Request $request)
     {
         return view('admin.entry.form', [
+            'categories' => $this->categoryService->getCategories(),
             'users' => $this->userService->getUsers(),
         ]);
     }
@@ -80,8 +85,12 @@ class EntryController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $entry = $this->entryService->getEntry($id);
+
         return view('admin.entry.form', [
-            'entry' => $this->entryService->getEntry($id),
+            'entry' => $entry,
+            'entry_categories' => array_column($entry->categories->toArray(), 'id'),
+            'categories' => $this->categoryService->getCategories(),
             'users' => $this->userService->getUsers(),
         ]);
     }

@@ -27,6 +27,7 @@ class StoreEntryRequest extends FormRequest
             'datetime' => ['required'],
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required'],
+            'categories' => ['required'],
             'user_id' => ['required', 'integer'],
         ];
     }
@@ -42,6 +43,7 @@ class StoreEntryRequest extends FormRequest
             'datetime' => '日時',
             'title' => 'タイトル',
             'body' => '本文',
+            'categories' => 'カテゴリ',
             'user_id' => 'ユーザ',
         ];
     }

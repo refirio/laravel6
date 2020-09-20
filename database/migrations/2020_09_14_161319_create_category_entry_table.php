@@ -14,8 +14,8 @@ class CreateCategoryEntryTable extends Migration
     public function up()
     {
         Schema::create('category_entry', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->bigInteger('category_id', false, true)->index();
+            $table->bigInteger('entry_id', false, true)->index();
         });
     }
 

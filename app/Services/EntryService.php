@@ -73,6 +73,7 @@ class EntryService
             'datetime',
             'title',
             'body',
+            'categories',
             'user_id',
         ]);
 
@@ -103,6 +104,7 @@ class EntryService
             'datetime',
             'title',
             'body',
+            'categories',
             'user_id',
         ]);
 

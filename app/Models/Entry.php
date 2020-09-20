@@ -28,6 +28,14 @@ class Entry extends Model
     ];
 
     /**
+     * 記事に関連するカテゴリを取得
+     */
+    public function categories()
+    {
+        return $this->belongsToMany('App\Models\Category');
+    }
+
+    /**
      * 記事に関連するユーザを取得
      */
     public function user()

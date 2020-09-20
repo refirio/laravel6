@@ -47,6 +47,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">カテゴリ</label>
+
+                            <div class="col-sm-6">
+                                @foreach ($categories as $category)
+                                <div>
+                                    <label class="control-label conditions"><input type="checkbox" name="categories[]" value="{{ $category->id }}" @if (in_array($category->id, old('categories', isset($entry) ? $entry_categories : []))) checked @endif> {{ $category->name }}</label>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label for="user_id" class="col-sm-3 control-label">ユーザ</label>
 
                             <div class="col-sm-6">

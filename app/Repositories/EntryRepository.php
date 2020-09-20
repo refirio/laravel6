@@ -29,7 +29,9 @@ class EntryRepository implements EntryRepositoryContract
      */
     public function find($id)
     {
-        return $this->entry->find($id);
+        return $this->entry->with(['categories' => function($query) {
+            $query->orderBy('sort');
+        }, 'user'])->find($id);
     }
 
     /**
@@ -42,7 +44,9 @@ class EntryRepository implements EntryRepositoryContract
      */
     public function search(array $conditions = array(), array $orders = array(), $limit = null)
     {
-        $query = $this->entry->query()->with('user');
+        $query = $this->entry->query()->with(['categories' => function($query) {
+            $query->orderBy('sort');
+        }, 'user']);
         $query = $this->setConditions($query, $conditions);
 
         foreach ($orders as $order) {
@@ -79,7 +83,12 @@ class EntryRepository implements EntryRepositoryContract
      */
     public function save(array $data, $id = null)
     {
-        return $this->entry->updateOrCreate(['id' => $id], $data);
+        $entry = $this->entry->updateOrCreate(['id' => $id], $data);
+
+        $model = $this->entry->find($entry->id);
+        $model->categories()->sync($data['categories']);
+
+        return $entry;
     }
 
     /**
